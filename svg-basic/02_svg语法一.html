@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .pink {
+        fill: pink;
+      }
+      .skyblue {
+        fill: skyblue;
+        stroke: aqua;
+        stroke-width: 3px;
+      }
+      .line {
+        stroke: blue;
+        stroke-width: 3px;
+        transition: all 1s ease-in-out;
+        /* transform: rotate(25deg); */
+        transform-origin: center;
+        animation: transfer 2s linear infinite;
+      }
+      .line:hover {
+        stroke: tan;
+      }
+      @keyframes transfer {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .polyline {
+        stroke: green;
+        stroke-width: 3px;
+        fill: none;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="100%" height="100%">
+      <circle id="mycircle" cx="50" cy="50" r="50" fill="red" />
+    </svg>
+    <hr />
+    <svg width="100" height="100" viewBox="50 50 50 50">
+      <circle id="mycircle" cx="50" cy="50" r="50" fill="orange" />
+    </svg>
+    <hr />
+    <svg width="400" height="400">
+      <circle id="mycircle" cx="100" cy="100" r="50" fill="blue" />
+      <circle id="mycircle" cx="170" cy="170" r="5" class="pink" />
+      <circle id="mycircle" cx="200" cy="200" r="25" class="skyblue" />
+    </svg>
+    <hr />
+    <svg width="400" height="400">
+      <line x1="50" y1="50" x2="350" y2="350" class="line"></line>
+    </svg>
+    <hr />
+    <svg width="400" height="400">
+      <polyline points="90,60 180,280 360,360" class="polyline"></polyline>
+    </svg>
+    <hr />
+    <svg width="300" height="180">
+      <rect
+        x="50"
+        y="50"
+        height="200"
+        width="200"
+        style="stroke: #70d5dd; fill: #dd524b"
+      ></rect>
+    </svg>
+    <hr />
+    <svg width="300" height="180">
+      <ellipse
+        cx="150"
+        cy="60"
+        rx="40"
+        ry="20"
+        style="stroke: #092d2e; fill: #271cc3"
+      ></ellipse>
+    </svg>
+    <hr />
+    <svg width="300" height="300">
+      <polygon
+        fill="green"
+        stroke="orange"
+        stroke-width="1"
+        points="0,0 100,0 100,100 0,100 0,0"
+      ></polygon>
+    </svg>
+    <hr />
+    <svg width="300" height="300">
+      <path
+        d="
+      M 18,3
+      L 46,3
+      L 46,40
+      L 61,40
+      L 32,68
+      L 3,40
+      L 18,40
+      Z
+      "
+      ></path>
+    </svg>
+    <hr />
+    <svg
+      width="500"
+      height="500"
+      style="
+        stroke: #ff0000;
+        stroke-width: 2px;
+        fill: none;
+        font-size: 50px;
+        text-shadow: 0 0 20px #333;
+      "
+    >
+      <text x="50" y="50">Hello World</text>
+    </svg>
+  </body>
+</html>
