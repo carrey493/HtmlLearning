@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .enlarge-svg{
+        width: 500px;
+        border: 1px saddlebrown dashed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="enlarge-svg">
+      <svg width="500" height="500">
+        <rect x="50" y="50" width="100" height="100" class="rect"></rect>
+      </svg>
+    </div>
+    <button>放大SVG</button>
+    <script>
+      let btn = document.querySelector("button");
+      btn.onclick = function () {
+        let svgRect = document.querySelector("rect");
+        console.log([svgRect]);
+        svgRect.setAttribute("width", 200);
+        svgRect.setAttribute("height", 200);
+        svgRect.setAttribute("fill", "orange");
+        svgRect.setAttribute("x", 150);
+        svgRect.style.transition = "all 1s ease-in-out";
+        let speed = 20;
+        let location = 20;
+        setInterval(() => {
+          location += speed;
+          svgRect.setAttribute("x", location);
+        }, 100);
+      };
+    </script>
+  </body>
+</html>
