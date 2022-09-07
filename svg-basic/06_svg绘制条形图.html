@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .coordinate {
+        stroke: #999;
+        stroke-width: 2;
+      }
+      .scale {
+        stroke: orangered;
+        stroke-width: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+        1.获取数据
+        2.创建SVG
+        3.创建坐标
+        4.绘制座标文字
+        5.依据数据绘制图形
+    -->
+    <svg width="1000" height="700">
+      <g id="coordinate">
+        <!-- 坐标 -->
+        <line class="coordinate" x1="50" y1="600" x2="950" y2="600"></line>
+        <path d="M 925,590 L 950,600 L 925,610"></path>
+        <text x="920" y="630">时间</text>
+        <line class="coordinate" x1="100" y1="650" x2="100" y2="50"></line>
+        <path d="M 90,75 L 100,50 L 110,75"></path>
+        <text x="50" y="70">订单</text>
+      </g>
+      <!-- 刻度 -->
+      <g id="scalex"></g>
+      <g id="scaley"></g>
+      <g id="list"></g>
+    </svg>
+    <script>
+      let data = [
+        {
+          time: '8月21日',
+          order: 12000,
+        },
+        {
+          time: '8月22日',
+          order: 13000,
+        },
+        {
+          time: '8月23日',
+          order: 11000,
+        },
+        {
+          time: '8月24日',
+          order: 14000,
+        },
+        {
+          time: '8月25日',
+          order: 15000,
+        },
+        {
+          time: '8月26日',
+          order: 12000,
+        },
+        {
+          time: '8月27日',
+          order: 11000,
+        },
+      ];
+      let scalex = document.getElementById("scalex");
+      let scaley = document.getElementById("scaley");
+
+      let listLength = parseInt(700 / data.length);
+      let yLength = parseInt(450 / 15);
+
+      let listDom = document.getElementById("list");
+
+      for (let i = 1; i <= data.length; i++) {
+        renderScale(i);
+      }
+      for (let j = 1; j <= 15; j++) {
+        let lineDom = document.createElement("line");
+        lineDom.className = "scale";
+        scaley.innerHTML =
+          scaley.innerHTML +
+          `<line class="scale" x1="100" y1=${600 - yLength * j} x2="120" y2=${
+            600 - yLength * j
+          } ></line>` +
+          `<text x="50" y=${600 - yLength * j}>${1000 * j}</text>`;
+      }
+      function renderScale(i) {
+        let lineDom = document.createElement("line");
+        lineDom.className = "scale";
+        lineDom.setAttribute("x1", i * listLength + 150);
+        lineDom.setAttribute("y1", 600);
+        lineDom.setAttribute("x2", i * listLength + 150);
+        lineDom.setAttribute("y2", 580);
+        scalex.innerHTML =
+          scalex.innerHTML +
+          lineDom.outerHTML +
+          `<text x="${70 + listLength * i}" y="620">${
+            data[i - 1].time
+          }</text>`;
+
+        let rgbColor = `rgb(${parseInt(Math.random() * 255)},
+         ${parseInt(Math.random() * 255)} ,
+         ${parseInt(Math.random() * 255)} 
+        )`;
+        console.log(rgbColor);
+
+        listDom.innerHTML =
+          listDom.innerHTML +
+          `<rect x="${90 + listLength * i}" y="${
+            600 - (data[i - 1].order / 1000) * yLength
+          }" width="20" height="${
+            (data[i - 1].order / 1000) * yLength
+          }" fill="${rgbColor}""></rect>`;
+      }
+    </script>
+  </body>
+</html>
