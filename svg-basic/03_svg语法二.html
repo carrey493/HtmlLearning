@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg width="600" height="600">
+      <circle
+        id="circle1"
+        cx="200"
+        cy="200"
+        r="50"
+        fill="orange"
+        stroke="blue"
+        stroke-width="2px"
+      ></circle>
+      <use href="#circle1" x="100" y="100"></use>
+    </svg>
+    <hr />
+    <svg width="1200" height="1200">
+      <g id="miqi">
+        <circle cx="100" cy="100" r="50"></circle>
+        <circle cx="500" cy="100" r="50"></circle>
+        <circle cx="300" cy="300" r="100"></circle>
+      </g>
+      <use href="#miqi" x="500" y="0"></use>
+    </svg>
+    <hr />
+    <svg width="1200" height="1200">
+      <defs>
+        <g id="miqi">
+          <circle cx="100" cy="100" r="50"></circle>
+          <circle cx="500" cy="100" r="50"></circle>
+          <circle cx="300" cy="300" r="100"></circle>
+        </g>
+      </defs>
+      <use href="#miqi" x="500" y="0"></use>
+    </svg>
+    <hr />
+    <svg width="500" height="500">
+      <defs>
+        <pattern
+          id="dots"
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          patternUnits="userSpaceOnUse"
+        >
+          <circle fill="red" cx="50" cy="50" r="35"></circle>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"></rect>
+    </svg>
+    <hr />
+    <svg viewBox="0 0 1000 1000" width="1000" height="1000">
+      <image xlink:href="svg-file/0.png" width="50%" height="50%"></image>
+    </svg>
+    <hr />
+    <svg width="1000" height="1000">
+      <rect x="0" y="0" width="100" height="50" fill="orange">
+        <animate attributeName="x" from="0" to="500" 
+        dur="2s" repeatCount="indefinite"
+        ></animate>
+        <animate attributeName="y" from="0" to="500" 
+        dur="3s" repeatCount="indefinite"
+        ></animate>
+      </rect>
+    </svg>
+    <hr/>
+    <svg width="1000" height="1000">
+      <rect x="0" y="0" width="100" height="50" fill="blue">
+        <animateTransform attributeName="transform"  type="rotate" begin="0" 
+        dur="2s"form="0 200 200" to="360 400 400"  repeatCount="indefinite"
+        ></animateTransform>
+      </rect>
+    </svg>
+  </body>
+</html>
