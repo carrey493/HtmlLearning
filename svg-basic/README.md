@@ -544,4 +544,235 @@ var svgObject = document.getElementById('object').contentDocument
 var svgIframe = document.getElementById('iframe').contentDocument
 var svgEmbed = document.getElementById('embed').getSVGDocument()
 ```
+
+## 四、使用SVG绘制图形
     
+下面，我们使用SVG来绘制两个图形，用来帮助我们熟悉svg的相关属性以及如何使用javaScript来操纵svg元素。
+    
+### 1.环形进度条
+    
+![GIF 2022-10-8 20-58-36.gif](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e4181711755464a9719ce607a8434d0~tplv-k3u1fbpfcp-watermark.image?)
+    
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>环形进度条</title>
+    <style>
+      .text {
+        text-anchor: middle;
+      }
+      body {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <svg height="700" width="700">
+      <!-- 设置底色的圆环 -->
+      <circle
+        cx="350"
+        cy="350"
+        r="300"
+        fill="none"
+        stroke="grey"
+        stroke-width="40"
+        stroke-linecap="round"
+      ></circle>
+      <!-- 设置进度条 -->
+      <circle
+        class="progess"
+        transform="rotate(-90,350,350)"
+        cx="350"
+        cy="350"
+        r="300"
+        fill="none"
+        stroke="red"
+        stroke-width="40"
+        stroke-linecap="round"
+        stroke-dasharry="0,10000"
+      ></circle>
+      <!-- stroke-dasharry:一个表示长度，一个表示间距 -->
+      <!-- 设置文本 -->
+      <text class="text" x="350" y="350" font-size="200" fill="red">0</text>
+    </svg>
+
+    <script>
+      //获取进度条circle对象
+      let progressDom = document.querySelector(".progess");
+      //获取文本对象
+      let textDom = document.querySelector(".text");
+      //获取svg圆形环的总长，通过获取半径长度获取总长
+      function rotateCircle(persent) {
+        let circleLength = Math.floor(
+          2 * Math.PI * parseFloat(progressDom.getAttribute("r"))
+        );
+        console.log(circleLength);
+        //按照百分比算出进度环的长度
+        let value = (persent * circleLength) / 100;
+        //red:rgb(255,0,0)
+        //blue:rgb(0,191,255)
+        let red = 255 + parseInt(((0 - 255) / 100) * persent);
+        let green = 0 + parseInt(((191 - 0) / 100) * persent);
+        let blue = 0 + parseInt(((255 - 0) / 100) * persent);
+        //设置stroke-dasharray和路径的颜色
+        progressDom.setAttribute("stroke-dasharray", value + ",10000");
+        progressDom.setAttribute("stroke", `rgb(${red},${green},${blue})`);
+        //设置文本内容颜色
+        textDom.innerHTML = persent + "%";
+        textDom.setAttribute("fill", `rgb(${red},${green},${blue})`);
+      }
+      //30毫秒变化执行
+      let num = 0;
+      setInterval(() => {
+        num++;
+        if (num > 100) {
+          num = 0;
+        }
+        rotateCircle(num);
+      }, 30);
+    </script>
+  </body>
+</html>
+```
+    
+### 2.条形统计图
+
+![N$tLm8h$25EXiUAXE1yF1Q==.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b0c6c17f6fc42119638b04adf68e503~tplv-k3u1fbpfcp-watermark.image?)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .coordinate {
+        stroke: #999;
+        stroke-width: 2;
+      }
+      .scale {
+        stroke: orangered;
+        stroke-width: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+        1.获取数据
+        2.创建SVG
+        3.创建坐标
+        4.绘制座标文字
+        5.依据数据绘制图形
+    -->
+    <svg width="1000" height="700">
+      <g id="coordinate">
+        <!-- 坐标 -->
+        <line class="coordinate" x1="50" y1="600" x2="950" y2="600"></line>
+        <path d="M 925,590 L 950,600 L 925,610"></path>
+        <text x="920" y="630">时间</text>
+        <line class="coordinate" x1="100" y1="650" x2="100" y2="50"></line>
+        <path d="M 90,75 L 100,50 L 110,75"></path>
+        <text x="50" y="70">订单</text>
+      </g>
+      <!-- 刻度 -->
+      <g id="scalex"></g>
+      <g id="scaley"></g>
+      <g id="list"></g>
+    </svg>
+    <script>
+      let data = [
+        {
+          time: '8月21日',
+          order: 12000,
+        },
+        {
+          time: '8月22日',
+          order: 13000,
+        },
+        {
+          time: '8月23日',
+          order: 11000,
+        },
+        {
+          time: '8月24日',
+          order: 14000,
+        },
+        {
+          time: '8月25日',
+          order: 15000,
+        },
+        {
+          time: '8月26日',
+          order: 12000,
+        },
+        {
+          time: '8月27日',
+          order: 11000,
+        },
+      ];
+      let scalex = document.getElementById("scalex");
+      let scaley = document.getElementById("scaley");
+
+      let listLength = parseInt(700 / data.length);
+      let yLength = parseInt(450 / 15);
+
+      let listDom = document.getElementById("list");
+
+      for (let i = 1; i <= data.length; i++) {
+        renderScale(i);
+      }
+      for (let j = 1; j <= 15; j++) {
+        let lineDom = document.createElement("line");
+        lineDom.className = "scale";
+        scaley.innerHTML =
+          scaley.innerHTML +
+          `<line class="scale" x1="100" y1=${600 - yLength * j} x2="120" y2=${
+            600 - yLength * j
+          } ></line>` +
+          `<text x="50" y=${600 - yLength * j}>${1000 * j}</text>`;
+      }
+      function renderScale(i) {
+        let lineDom = document.createElement("line");
+        lineDom.className = "scale";
+        lineDom.setAttribute("x1", i * listLength + 150);
+        lineDom.setAttribute("y1", 600);
+        lineDom.setAttribute("x2", i * listLength + 150);
+        lineDom.setAttribute("y2", 580);
+        scalex.innerHTML =
+          scalex.innerHTML +
+          lineDom.outerHTML +
+          `<text x="${70 + listLength * i}" y="620">${
+            data[i - 1].time
+          }</text>`;
+
+        let rgbColor = `rgb(${parseInt(Math.random() * 255)},
+         ${parseInt(Math.random() * 255)} ,
+         ${parseInt(Math.random() * 255)} 
+        )`;
+        console.log(rgbColor);
+
+        listDom.innerHTML =
+          listDom.innerHTML +
+          `<rect x="${90 + listLength * i}" y="${
+            600 - (data[i - 1].order / 1000) * yLength
+          }" width="20" height="${
+            (data[i - 1].order / 1000) * yLength
+          }" fill="${rgbColor}""></rect>`;
+      }
+    </script>
+  </body>
+</html>
+
+```
+
+## 五、总结
+              
+这篇文章介绍了svg矢量图标的基础知识及语法，也简单介绍了svg矢量图标的绘制以及如何使用JavaScript操作svg。当然，如果你想要炫酷的svg图标，那么你可能需要专业的工具来帮你完成这项任务😀。
+              
+我是Atrox🚀，一个正在努力学习的前端攻城狮🦁，期待你的关注，一起学习，共同进步💪💪💪。
