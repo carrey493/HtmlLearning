@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        //canvas元素为了能正常的显示里面的图形，需要使用属性设置宽高而不是样式
+        const canvas = document.createElement('canvas')
+        /* canvas.width = 600
+        canvas.height = 400 */
+        document.body.append(canvas)
+
+        const context = canvas.getContext('2d')
+        context.fillRect(100, 100, 100, 100)
+    </script>
+</body>
+
+</html>
