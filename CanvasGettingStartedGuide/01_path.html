@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Path</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+
+    <script>
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+
+      ctx.beginPath(); // 设置开始路径
+      ctx.moveTo(50, 50); // 设置绘制的起始点
+      ctx.quadraticCurveTo(20,100,200,20);
+      ctx.bezierCurveTo(20,100,200,100,200,150);
+      ctx.arc(100,75,50,0,2*Math.PI);
+      ctx.arcTo(150,20,150,70,50);
+
+      // 设置经过某个位置
+      ctx.lineTo(50, 300);
+      ctx.lineTo(300, 100);
+      ctx.lineTo(300, 250);
+
+      ctx.closePath(); // 设置结束路径
+      ctx.fillStyle = "rgb(36,172,242)"; //设置填充样式
+      ctx.fill(); // 填充路径
+
+      ctx.stroke(); // 绘制路径
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deformation</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script type="text/javascript">
+      let canvas = document.getElementById("canvas");
+      let cxt = canvas.getContext("2d");
+
+      cxt.fillStyle = "yellow";
+      cxt.fillRect(0, 0, 100, 100);
+
+      cxt.translate(300, 0);
+      //在这里我们移动的是坐标原点，即移动的是坐标尺
+      cxt.fillStyle = "skyblue";
+      cxt.fillRect(100, 100, 300, 100);
+      cxt.fillStyle = "pink";
+      cxt.fillRect(0, 0, 100, 100);
+
+      cxt.fillStyle = "yellow";
+      cxt.fillRect(100, 100, 200, 50);
+      cxt.rotate(Math.PI/ 4)
+      //在这里我们旋转的是x轴
+      cxt.fillStyle = "red";
+      cxt.fillRect(100, 100, 200, 50);
+
+      cxt.fillStyle = "orange";
+      cxt.fillRect(150,150,20,20)
+      cxt.scale(2,2)
+      //在这里放大的坐标尺
+      cxt.fillStyle = "brown";
+      cxt.fillRect(150,150,20,20)
+      //也可以再缩小
+      cxt.scale(0.5,0.5)
+      cxt.fillStyle = "orange";
+      cxt.fillRect(170,170,20,20)
+    </script>
+  </body>
+</html>

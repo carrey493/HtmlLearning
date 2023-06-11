@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #ggk {
+        width: 400px;
+        height: 100px;
+        position: relative;
+      }
+      #ggk .jp {
+        width: 400px;
+        height: 100px;
+        position: absolute;
+        user-select: none;
+        text-align: center;
+        left: 0;
+        top: 0;
+      }
+      #ggk #canvas {
+        width: 400px;
+        height: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ggk" class="ggk">
+      <div id="jp" class="jp">谢谢惠顾</div>
+    </div>
+    <script>
+      const ggk = document.getElementById("ggk");
+      const canvas = document.createElement("canvas");
+      canvas.width = 400;
+      canvas.height = 100;
+      canvas.id = "canvas";
+      document.getElementById("ggk").append(canvas);
+
+      const context = canvas.getContext("2d");
+      context.fillStyle = "darkgrey";
+      context.fillRect(0, 0, 400, 100);
+      context.fillStyle = "#fff";
+      context.font = "20px 宋体";
+      context.fillText("刮刮卡", 180, 40);
+
+      let isDraw = false;
+      canvas.onmousedown = function () {
+        isDraw = true;
+      };
+
+      //移动的时候绘制圆形，将源图像的目标内容给清除掉
+      canvas.onmousemove = function (e) {
+        if (!isDraw) return;
+        let x = e.pageX - ggk.offsetLeft;
+        let y = e.pageY - ggk.offsetTop;
+        context.globalCompositeOperation = "destination-out";
+        context.arc(x, y, 20, 2 * Math.PI, false);
+        context.fill();
+      };
+
+      canvas.onmouseup = function () {
+        isDraw = false;
+      };
+
+      let jangp = [
+        { context: "一等奖：1000", p: 0.1 },
+        { context: "二等奖：500", p: 0.4 },
+        { context: "三等奖：100", p: 0.5 },
+      ];
+      let randomNum = Math.random();
+      let jpDom = document.getElementById("jp");
+      if (randomNum < jangp[0].pageX) {
+        jpDom.innerHTML = jangp[0].context;
+      } else if (randomNum < jangp[1].p + jangp[0].p) {
+        jpDom.innerHTML = jangp[1].context;
+      } else if (randomNum < jangp[1].p + jangp[2].p) {
+        jpDom.innerHTML = jangp[2].context;
+      }
+    </script>
+  </body>
+</html>

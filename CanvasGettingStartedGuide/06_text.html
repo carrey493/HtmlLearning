@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+
+    <script>
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext("2d");
+
+      //设置字体样式
+      ctx.font = "50px 微软雅黑";
+
+      // 设置阴影
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = "rgba(0,0,0,1)";
+      ctx.shadowOffsetX = 10;
+      ctx.shadowOffsetY = 0;
+
+      let x = 600;
+      setInterval(() => {
+        //清空画布
+        ctx.clearRect(0, 0, 600, 600);
+        x -= 10;
+        if (x < -100) x = 600;
+        //填充字体内容
+        ctx.fillStyle="#409eff"
+        ctx.fillText("HelloWorld", x, 100);
+
+        //设置描边内容
+        ctx.strokeText("代码改变世界", x, 200);
+      }, 16);
+    </script>
+  </body>
+</html>

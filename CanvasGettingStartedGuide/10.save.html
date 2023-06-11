@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deformation</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script type="text/javascript">
+      let canvas = document.getElementById("canvas");
+      let cxt = canvas.getContext("2d");
+
+      cxt.fillStyle = "yellow";
+      cxt.fillRect(0, 0, 100, 100);
+      //保留环境的状态
+      cxt.save();
+      cxt.scale(2, 2);
+      cxt.fillStyle = "skyblue";
+      cxt.fillRect(100, 100, 200, 200);
+      //恢复之前保留的环境状态
+      cxt.restore();//只会恢复最近一次保留状态，需要多次调用一层一层的恢复
+      cxt.fillRect(100, 100, 100, 100);
+    </script>
+  </body>
+</html>

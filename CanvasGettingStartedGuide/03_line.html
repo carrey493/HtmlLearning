@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Path</title>
+  </head>
+  <body>
+    <canvas id="canvas1" width="600" height="600"></canvas>
+
+    <script>
+      let canvas1 = document.getElementById("canvas1");
+      let ctx1 = canvas1.getContext("2d");
+
+      //设置开始路径
+      ctx1.beginPath()
+      // 设置绘制的起始点
+      ctx1.moveTo(50, 50);
+      // 设置经过某个位置
+      ctx1.lineTo(50, 300);
+      ctx1.lineTo(300, 100);
+      ctx1.lineTo(300, 260);
+      //设置结束路径
+      ctx1.closePath()
+
+      // 绘制路径
+      ctx1.lineCap = "round"; // 设置起始路径的线段边缘为圆角 默认butt
+      ctx1.lineJoin = "round"; // 设置或返回两条线相交时，所创建的拐角类型 默认miter
+      ctx1.miterLimit = 2;
+      ctx1.strokeStyle = "rgb(36,172,242)";
+      ctx1.lineWidth = 10;
+      ctx1.stroke();
+    </script>
+  </body>
+</html>

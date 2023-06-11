@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .caidan {
+        height: 100px;
+        width: 100vw;
+        display: flex;
+        border-bottom: 3px solid #ccc;
+        justify-content: space-around;
+        align-items: center;
+      }
+      #canvas {
+        flex: 1;
+        width: 100vw;
+      }
+      .btn {
+        width: 150px;
+        height: 50px;
+        border: 1px solid #ccc;
+        background: #409eff;
+        text-align: center;
+        border-radius: 20px;
+        line-height: 50px;
+        font-size: 20px;
+        color: aliceblue;
+      }
+      .btn1 {
+        width: 150px;
+        height: 50px;
+        border: 1px solid #ccc;
+        background: #409eff;
+        text-align: center;
+        border-radius: 20px;
+        line-height: 50px;
+        font-size: 20px;
+        color: aliceblue;
+      }
+      .active {
+        /* border: 3px dashed #fff; */
+        box-shadow: 0 0 20px skyblue;
+      }
+      .line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .xi::after {
+        content: "";
+        width: 6px;
+        height: 6px;
+        display: block;
+        background: #333;
+        border-radius: 3px;
+      }
+      .putong::after {
+        content: "";
+        width: 12px;
+        height: 12px;
+        display: block;
+        background: #333;
+        border-radius: 6px;
+      }
+      .cu::after {
+        content: "";
+        width: 24px;
+        height: 24px;
+        display: block;
+        background: #333;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+        将画笔功能：能够拖动鼠标在页面内绘图，能够设置画笔的粗细，设置画笔的颜色
+        能够在任意位置绘制圆形：拖动鼠标即可随意在任意位置绘制圆形，并且可以随意定制大小
+        能够在任意位置绘制出矩形：拖动鼠标即可随意在任意位置绘制矩形，并且可以随意定制大小
+     -->
+    <div class="caidan">
+      <div id="huabi" class="btn">画笔</div>
+      <div id="juxing" class="btn">矩形</div>
+      <div id="yuanxing" class="btn">圆形</div>
+      <div id="cuxi" class="btn1 line xi"></div>
+      <div id="cuxi" class="btn1 line putong"></div>
+      <div id="cuxi" class="btn1 line cu"></div>
+      <div id="yanse" class="btn">
+        <input type="color" id="color" />
+      </div>
+      <div id="xpc" class="btn">橡皮擦</div>
+      <div id="xiazai" class="btn">下载</div>
+      <div id="chongzhi" class="btn">重置</div>
+    </div>
+    <script>
+      let allBtn = document.querySelectorAll(".btn");
+      const canvas = document.createElement("canvas");
+      canvas.id = "canvas";
+      let context = canvas.getContext("2d");
+      //设置canvas的宽高
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight - 100;
+      document.body.append(canvas);
+
+      let huaban = {
+        type: "none",
+        isDraw: false,
+        beginX: 0,
+        beginY: 0,
+        imageData: null,
+        lineWidth: 1,
+        color: "#000",
+        huabiFn: function (e) {
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          /* context.beginPath();
+          context.arc(x, y, 3, 0, 2 * Math.PI);
+          context.closePath();
+          context.fill(); */
+          context.lineTo(x, y);
+          context.strokeStyle = huaban.color;
+          context.lineWidth = huaban.lineWidth;
+          context.lineCap = "round";
+          context.lineJoin = "round";
+          context.stroke();
+        },
+        juxingFn: function (e) {
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          context.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+          if (huaban.imageData !== null) {
+            context.putImageData(
+              huaban.imageData,
+              0,
+              0,
+              0,
+              0,
+              canvas.offsetWidth,
+              canvas.offsetHeight
+            );
+          }
+
+          context.beginPath();
+          context.rect(
+            huaban.beginX,
+            huaban.beginY,
+            x - huaban.beginX,
+            y - huaban.beginY
+          );
+          context.strokeStyle = huaban.color;
+
+          context.stroke();
+          context.closePath();
+        },
+      };
+
+      let huabi = document.getElementById("huabi");
+      huabi.onclick = function () {
+        allBtn.forEach(function (item, i) {
+          item.classList.remove("active");
+        });
+        huabi.classList.add("active");
+        huaban.type = "huabi";
+      };
+      let juxing = document.getElementById("juxing");
+      juxing.onclick = function () {
+        allBtn.forEach(function (item, i) {
+          item.classList.remove("active");
+        });
+        juxing.classList.add("active");
+        huaban.type = "juxing";
+      };
+
+      //设置粗细的按钮
+      let lineDivs = document.querySelectorAll(".line");
+      lineDivs.forEach(function (item, i) {
+        item.onclick = function () {
+          lineDivs.forEach(function (item, i) {
+            item.classList.remove("active");
+          });
+          item.classList.add("active");
+          if (i === 0) huaban.lineWidth = 6;
+          if (i === 1) huaban.lineWidth = 12;
+          if (i === 2) huaban.lineWidth = 24;
+        };
+      });
+
+      //监听颜色设置
+      let colorInput = document.getElementById("color");
+      colorInput.onchange = function (e) {
+        console.log(e);
+        console.log(colorInput.value);
+        huaban.color = colorInput.value;
+      };
+
+      //下载按钮下载
+      let xiazaiButton = document.getElementById("xiazai");
+      xiazaiButton.onclick = function () {
+        let url = canvas.toDataURL();
+        let a = document.createElement("a");
+        document.body.appendChild(a)
+        a.setAttribute("href", url);
+        a.setAttribute('download','download')
+        a.click()
+        document.body.replaceChild()
+      };
+
+      //监听鼠标按下事件
+      canvas.onmousedown = function (e) {
+        huaban.isDraw = true;
+        if (huaban.type === "juxing") {
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          huaban.beginX = x;
+          huaban.beginY = y;
+        }
+        if (huaban.type === "huabi") {
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          huaban.beginX = x;
+          huaban.beginY = y;
+          context.beginPath();
+          context.moveTo(x, y);
+        }
+      };
+
+      //监听鼠标抬起事件
+      canvas.onmouseup = function () {
+        console.log(huaban.type);
+        huaban.imageData = context.getImageData(
+          0,
+          0,
+          canvas.offsetWidth,
+          canvas.offsetHeight
+        );
+        huaban.isDraw = false;
+
+        if (huaban.type === "huabi") {
+          context.closePath();
+        }
+      };
+
+      //监听鼠标移动事件
+      canvas.onmousemove = function (e) {
+        if (huaban.isDraw && huaban.type !== "none") {
+          let strFn = huaban.type + "Fn";
+          huaban[strFn](e);
+        }
+      };
+    </script>
+  </body>
+</html>

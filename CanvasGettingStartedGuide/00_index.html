@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+    canvas三要素
+    id:作为唯一标识
+    width:画布内容宽度的像素大小(与style的宽度和高度是有区别的)
+    height:画布内容高度的像素大小
+
+    canvas仅仅只是一个画布标签，要绘制内容，必须用js绘制。
+     -->
+    <canvas id="canvas1" width="400" height="400"> 这里是一个canvas </canvas>
+
+    <script type="text/javascript">
+      //1.找到画布对象
+      let canvas1 = document.getElementById("canvas1");
+      console.log([canvas1]);
+
+      //2.上下文对象
+      let ctx = canvas1.getContext("2d");
+      //let ctx = canvas1.getContext("webgl");
+      console.log(ctx);
+
+      //3.绘制路径
+      ctx.rect(50, 50, 300, 300);
+
+      //4.填充元素
+      ctx.fillStyle = "aqua";
+      ctx.fill();
+
+      //5.路径描边、渲染
+      ctx.lineWidth = 15;
+      ctx.strokeStyle = "salmon";
+      ctx.stroke();
+    </script>
+  </body>
+</html>

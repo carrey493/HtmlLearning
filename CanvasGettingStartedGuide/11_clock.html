@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clock</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script type="text/javascript">
+      let canvas = document.getElementById("canvas");
+      let cxt = canvas.getContext("2d");
+      cxt.font = "20px 微软雅黑";
+      function renderClock() {
+        cxt.clearRect(0, 0, 800, 600);
+        cxt.save();
+        //将坐标移动到画布的中央
+        cxt.translate(400, 300);
+        //将x轴逆时针旋转90度
+        cxt.rotate((-2 * Math.PI) / 4);
+        cxt.save();
+        //绘制表盘
+        cxt.beginPath();
+        cxt.arc(0, 0, 200, 0, 2 * Math.PI);
+        cxt.strokeStyle = "skyblue";
+        cxt.lineWidth = 10;
+        cxt.stroke();
+        cxt.closePath();
+
+        //绘制分针刻度
+        for (let j = 0; j < 60; j++) {
+          cxt.rotate(Math.PI / 30);
+          cxt.beginPath();
+          cxt.moveTo(180, 0);
+          cxt.lineTo(190, 0);
+          cxt.lineWidth = 2;
+          cxt.strokeStyle = "orange";
+          cxt.stroke();
+          cxt.closePath();
+        }
+        cxt.restore();
+        cxt.save();
+
+        //绘制时钟刻度
+        for (let i = 0; i < 12; i++) {
+          cxt.rotate(Math.PI / 6);
+          cxt.beginPath();
+          cxt.moveTo(180, 0);
+          cxt.lineTo(200, 0);
+          cxt.strokeStyle = "skyblue";
+          cxt.lineWidth = 10;
+          cxt.stroke();
+          cxt.closePath();
+        }
+        cxt.restore();
+        cxt.save();
+
+        let time = new Date();
+        let hour = time.getHours();
+        let min = time.getMinutes();
+        let sec = time.getSeconds();
+
+        hour > 12 ? hour - 12 : hour; //时间大于12就减去12
+
+        //绘制秒针
+        cxt.beginPath();
+        //根据时间旋转
+        cxt.rotate(((2 * Math.PI) / 60) * sec);
+        cxt.moveTo(-30, 0);
+        cxt.lineTo(160, 0);
+        cxt.lineWidth = 2;
+        cxt.strokeStyle = "red";
+        cxt.stroke();
+        cxt.closePath();
+        cxt.restore();
+        cxt.save();
+
+        //绘制分针
+        cxt.beginPath();
+        //根据时间旋转
+        cxt.rotate(((2 * Math.PI) / 60) * min + ((2 * Math.PI) / 3600) * sec);
+        cxt.moveTo(-20, 0);
+        cxt.lineTo(130, 0);
+        cxt.lineWidth = 3;
+        cxt.strokeStyle = "darkblue";
+        cxt.stroke();
+        cxt.closePath();
+        cxt.restore();
+        cxt.save();
+
+        //绘制分针
+        cxt.beginPath();
+        //根据时间旋转
+        cxt.rotate(
+          ((2 * Math.PI) / 12) * hour +
+            ((2 * Math.PI) / 60 / 12) * min +
+            ((2 * Math.PI) / 12 / 60 / 60) * sec
+        );
+        cxt.moveTo(-10, 0);
+        cxt.lineTo(100, 0);
+        cxt.lineWidth = 6;
+        cxt.strokeStyle = "black";
+        cxt.stroke();
+        cxt.closePath();
+        cxt.restore();
+        cxt.save();
+
+        cxt.beginPath();
+        cxt.arc(0, 0, 3, 0, 2 * Math.PI);
+        cxt.fillStyle = "pink";
+        cxt.fill();
+        cxt.closePath();
+
+        // for (let k = 1; k < 13; k++) {}
+        cxt.rotate((2 * Math.PI) / 4);
+        cxt.fillText(3, 165, 5);
+        cxt.restore();
+        cxt.save();
+        cxt.fillStyle = "pink";
+        cxt.rotate((2 * Math.PI) / 4);
+        cxt.fillText(6, -5, 175);
+        cxt.restore();
+        cxt.save();
+        cxt.fillStyle = "pink";
+        cxt.rotate((2 * Math.PI) / 4);
+        cxt.fillText(9, -175, 5);
+        cxt.restore();
+        cxt.save();
+        cxt.fillStyle = "pink";
+        cxt.rotate((2 * Math.PI) / 4);
+        cxt.fillText(12, -12, -160);
+        cxt.restore();
+        cxt.save();
+        /*
+        cxt.fillText(9,0,-170)
+        cxt.fillText(12,170,0) */
+
+        cxt.restore();
+        cxt.restore();
+      }
+      setInterval(() => {
+        renderClock();
+      }, 100);
+    </script>
+  </body>
+</html>

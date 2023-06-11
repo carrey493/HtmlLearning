@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const canvas = document.createElement("canvas");
+      canvas.width = 400;
+      canvas.height = 300;
+      document.body.append(canvas);
+
+      const context = canvas.getContext("2d");
+      //第一个粉色矩形为目标图形
+      context.fillStyle = "hotpink";
+      context.globalAlpha=0.2;
+      context.fillRect(100, 100, 200, 200);
+
+      //默认值为source-over，源图像叠加在目标图像上
+      // globaCompositeOperation:source-over
+      // context.globalCompositeOperation = 'source-over'
+      // context.globalCompositeOperation = 'source-atop'
+      // context.globalCompositeOperation = 'source-in'
+      // context.globalCompositeOperation = 'source-out'
+      // context.globalCompositeOperation = 'destination-over'
+      // context.globalCompositeOperation = 'destination-atop'
+      // context.globalCompositeOperation = 'destination-in'
+      // context.globalCompositeOperation = 'destination-out'
+      // context.globalCompositeOperation = "lighter";
+      // context.globalCompositeOperation = 'copy'
+      // context.globalCompositeOperation = 'xor'
+
+      //第二个蓝色矩形为源图形
+      context.fillStyle = "skyblue";
+      context.globalAlpha=0.5;
+      context.fillRect(200, 200, 200, 200);
+    </script>
+  </body>
+</html>

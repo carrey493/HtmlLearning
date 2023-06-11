@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    
+    <canvas id="canvas" width="300" height="100" style="border:1px solid #d3d3d3;">  </canvas>
+
+    <script type="text/javascript">
+      //1.找到画布对象
+      let canvas = document.getElementById("canvas");
+
+      //2.上下文对象
+      let ctx = canvas.getContext("2d");
+
+      //3.绘制路径
+      ctx.rect(50, 25, 200, 50);
+
+      //4.填充元素
+      ctx.fillStyle = "skyblue";
+
+      ctx.shadowBlur=10;
+      ctx.shadowColor="gold";
+      ctx.shadowOffsetX=5;
+      ctx.shadowOffsetY=5;
+
+      ctx.fill();
+
+      //5.路径描边、渲染
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "salmon";
+      ctx.stroke();
+    </script>
+  </body>
+</html>
